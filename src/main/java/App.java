@@ -45,6 +45,15 @@ public class App {
                 return "{\"message\":\"I'm sorry, but no users are listed in the database.\"}";
             }
         });
+        get("/user/:id/departments","application/json",(request, response) -> {
+            int id=Integer.parseInt(request.params("id"));
+            if(sql2oUsersDao.getAllUserDepartments(id).size()>0){
+                return gson.toJson(sql2oUsersDao.getAllUserDepartments(id));
+            }
+            else {
+                return "{\"message\":\"I'm sorry, but user is in no department.\"}";
+            }
+        });
 
         get("/user/:id", "application/json",(request, response) -> {
             int id=Integer.parseInt(request.params("id"));
@@ -56,13 +65,29 @@ public class App {
                 return gson.toJson(sql2oUsersDao.findById(id));
             }
         });
-        get("/user/:id/departments","application/json",(request, response) -> {
+        post("/departments/new","application/json",(request, response) -> {
+            Departments departments =gson.fromJson(request.body(),Departments.class);
+            sql2oDepartmentsDao.add(departments);
+            response.status(201);
+            return gson.toJson(departments);
+        });
+        get("/department/:id/users","application/json",(request, response) -> {
             int id=Integer.parseInt(request.params("id"));
-            if(sql2oUsersDao.getAllUserDepartments(id).size()>0){
-                return gson.toJson(sql2oUsersDao.getAllUserDepartments(id));
+            if(sql2oDepartmentsDao.getAllUsersInDepartment(id).size()>0){
+                return gson.toJson(sql2oDepartmentsDao.getAllUsersInDepartment(id));
             }
             else {
-                return "{\"message\":\"I'm sorry, but user is in no department.\"}";
+                return "{\"message\":\"I'm sorry, but department has no users.\"}";
+            }
+        });
+        get("/department/:id","application/json",(request, response) -> {
+            int id=Integer.parseInt(request.params("id"));
+            if(sql2oDepartmentsDao.findById(id)==null){
+                throw new ApiException(404, String.format("No department with the id: \"%s\" exists",
+                        request.params("id")));
+            }
+            else {
+                return gson.toJson(sql2oDepartmentsDao.findById(id));
             }
         });
 

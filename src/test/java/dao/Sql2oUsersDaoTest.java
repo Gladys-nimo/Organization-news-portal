@@ -73,14 +73,14 @@ class Sql2oUsersDaoTest {
         sql2oDepartmentsDao.add(department);
         sql2oDepartmentsDao.add(otherDepartment);
         Users user=setUpNewUser();
-        Users otherUser= new Users("Wangui","intern","Paper work");
+        Users otherUser= new Users("Mary","intern","Paper work");
         sql2oUsersDao.add(user);
         sql2oUsersDao.add(otherUser);
         sql2oDepartmentsDao.addUserToDepartment(user,department);
         sql2oDepartmentsDao.addUserToDepartment(otherUser,department);
         sql2oDepartmentsDao.addUserToDepartment(user,otherDepartment);
-        assertEquals(2,sql2oUsersDao.getAllDepartments(user.getId()).size());
-        assertEquals(1,sql2oUsersDao.getAllDepartments(otherUser.getId()).size());
+        assertEquals(2,sql2oUsersDao.getAllUserDepartments(user.getId()).size());
+        assertEquals(1,sql2oUsersDao.getAllUserDepartments(otherUser.getId()).size());
     }
 // solution
 
