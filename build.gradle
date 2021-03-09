@@ -1,9 +1,14 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group 'org.moringa'
 version '1.0-SNAPSHOT'
+
+mainClassName = 'App'
+
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -15,8 +20,7 @@ dependencies {
     compile "com.sparkjava:spark-core:2.6.0"
     compile 'org.slf4j:slf4j-simple:1.7.21'
     compile group: 'org.sql2o', name: 'sql2o', version: '1.5.4'
-    compile group: 'com.h2database', name: 'h2', version: '1.4.191'
-}
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.13'}
 
 test {
     useJUnitPlatform()

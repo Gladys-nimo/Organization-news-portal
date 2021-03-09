@@ -1,0 +1,2 @@
+DROP DATABASE organizational_news_portal;
+DROP DATABASE organizational_news_portal_test;
