@@ -93,6 +93,23 @@ public class App {
                 return gson.toJson(sql2oDepartmentsDao.findById(id));
             }
         });
+
+        post("/news/new/department","application/json",(request, response) -> {
+            News department_news =gson.fromJson(request.body(),News.class);
+            Departments departments=sql2oDepartmentsDao.findById(department_news.getDepartment_id());
+            Users users=sql2oUsersDao.findById(department_news.getUser_id());
+            if(departments==null){
+                throw new ApiException(404, String.format("No department with the id: \"%s\" exists",
+                        request.params("id")));
+            }
+            if(users==null){
+                throw new ApiException(404, String.format("No user with the id: \"%s\" exists",
+                        request.params("id")));
+            }
+            sql2oNewsDao.addNews(department_news);
+            response.status(201);
+            return gson.toJson(department_news);
+        });
         get("/news/department/:id","application/json",(request, response) -> {
 
             int id=Integer.parseInt(request.params("id"));
