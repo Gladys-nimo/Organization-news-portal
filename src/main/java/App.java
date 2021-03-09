@@ -28,7 +28,7 @@ public class App {
         sql2oNewsDao = new Sql2oNewsDao(sql2o);
         conn = sql2o.open();
 
-
+//get and create users
 
         post("/users/new","application/json",(request, response) -> {
             Users users = gson.fromJson(request.body(),Users.class);
@@ -56,17 +56,19 @@ public class App {
         });
 
         get("/user/:id", "application/json",(request, response) -> {
-            int id=Integer.parseInt(request.params("id"));
-            if(sql2oUsersDao.findById(id)==null){
-                throw new ApiException(404, String.format("No user with the id: \"%s\" exists",
-                        request.params("id")));
-            }
-            else {
-                return gson.toJson(sql2oUsersDao.findById(id));
-            }
-        });
-        post("/departments/new","application/json",(request, response) -> {
-            Departments departments =gson.fromJson(request.body(),Departments.class);
+                    int id = Integer.parseInt(request.params("id"));
+                    if (sql2oUsersDao.findById(id) == null) {
+                        throw new ApiException(404, String.format("No user with the id: \"%s\" exists",
+                                request.params("id")));
+                    } else {
+                        return gson.toJson(sql2oUsersDao.findById(id));
+                    }
+                });
+
+// departments
+
+        post("departments/new", "application/json",(request, response) -> {
+            Departments departments = gson.fromJson(request.body(),Departments.class);
             sql2oDepartmentsDao.add(departments);
             response.status(201);
             return gson.toJson(departments);
@@ -90,15 +92,21 @@ public class App {
                 return gson.toJson(sql2oDepartmentsDao.findById(id));
             }
         });
+        get("/news/department/:id","application/json",(request, response) -> {
 
-
-        post("departments/new", "application/json",(request, response) -> {
-            Departments departments = gson.fromJson(request.body(),Departments.class);
-            sql2oDepartmentsDao.add(departments);
-            response.status(201);
-            return gson.toJson(departments);
+            int id=Integer.parseInt(request.params("id"));
+            Departments departments=sql2oDepartmentsDao.findById(id);
+            if(departments==null){
+                throw new ApiException(404, String.format("No department with the id: \"%s\" exists",
+                        request.params("id")));
+            }
+            if(sql2oDepartmentsDao.getDepartmentNews(id).size()>0){
+                return gson.toJson(sql2oDepartmentsDao.getDepartmentNews(id));
+            }
+            else {
+                return "{\"message\":\"I'm sorry, but no news in this department.\"}";
+            }
         });
-
     }
 
 
