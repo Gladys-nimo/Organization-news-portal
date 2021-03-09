@@ -9,6 +9,8 @@ import models.Users;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
+import java.util.List;
+
 import static spark.Spark.*;
 
 public class App {
@@ -135,6 +137,27 @@ public class App {
             sql2oNewsDao.addNews(news);
             response.status(201);
             return gson.toJson(news);
+        });
+        post("/add/user/:user_id/department/:department_id","application/json",(request, response) -> {
+
+            int user_id=Integer.parseInt(request.params("user_id"));
+            int department_id=Integer.parseInt(request.params("department_id"));
+            Departments departments=sql2oDepartmentsDao.findById(department_id);
+            Users users=sql2oUsersDao.findById(user_id);
+            if(departments==null){
+                throw new ApiException(404, String.format("No department with the id: \"%s\" exists",
+                        request.params("department_id")));
+            }
+            if(users==null){
+                throw new ApiException(404, String.format("No user with the id: \"%s\" exists",
+                        request.params("user_id")));
+            }
+            sql2oDepartmentsDao.addUserToDepartment(users,departments);
+
+            List<Users> departmentUsers=sql2oDepartmentsDao.getAllUsersInDepartment(departments.getId());
+
+            response.status(201);
+            return gson.toJson(departmentUsers);
         });
     }
 
