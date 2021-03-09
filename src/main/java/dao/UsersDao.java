@@ -10,7 +10,7 @@ public interface UsersDao {
     void add(Users users);
 
     List<Users> getAll();
-    List<Departments> getAllDepartments(int user_id);
+    List<Departments> getAllUserDepartments(int user_id);
     Users findById(int id);
 
     void clearAll();

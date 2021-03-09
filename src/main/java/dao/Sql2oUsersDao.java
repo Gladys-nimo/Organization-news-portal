@@ -43,8 +43,10 @@ public class Sql2oUsersDao implements UsersDao{
         }
     }
 
+
+
     @Override
-    public List<Departments> getAllDepartments(int user_id) {
+    public List<Departments> getAllUserDepartments(int user_id) {
         List<Departments> departments=new ArrayList<>();
         try (Connection con=sql2o.open()) {
             String sql = "SELECT department_id FROM users_departments WHERE user_id=:user_id";
