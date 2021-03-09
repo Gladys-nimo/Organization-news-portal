@@ -17,3 +17,38 @@ REST API for querying and retrieving scoped news and information. There should b
   "position": "manager"'
   "staff_role": "supervising"
   }
+  - **View** user by replacing the:
+    **:id with localhost:4567/user/33**
+ 2. ## Departments
+    - **creating** a department
+      {
+      "name": "editing",
+      "description": "editing new files",
+      "size": "1"
+      }
+      - **view** the department
+        localhost:4567/department/28
+3.  ## News
+- **creating** news
+- **general news**
+{
+  "title":"Meeting",
+  "description":"Discussion about expanding",
+  "user_id":1
+  }
+  - **departmental_news**
+    {
+    "title":"Meeting",
+    "description":"Discussion about expanding",
+    "department_id":1,
+    "user_id":1
+    }
+    -**view**
+    localhost:4567/news/new/general
+    # Technology used
+    - Java
+    - Json
+    - Postman
+    # licence
+    MIT
+    
