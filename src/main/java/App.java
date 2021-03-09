@@ -4,6 +4,7 @@ import dao.Sql2oNewsDao;
 import dao.Sql2oUsersDao;
 import exceptions.ApiException;
 import models.Departments;
+import models.News;
 import models.Users;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -106,6 +107,17 @@ public class App {
             else {
                 return "{\"message\":\"I'm sorry, but no news in this department.\"}";
             }
+        });
+
+        // news det and post
+
+
+        post("/news/new/general","application/json",(request, response) -> {
+
+            News news =gson.fromJson(request.body(), News.class);
+            sql2oNewsDao.addNews(news);
+            response.status(201);
+            return gson.toJson(news);
         });
     }
 
