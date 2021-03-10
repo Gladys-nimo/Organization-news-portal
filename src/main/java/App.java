@@ -14,12 +14,22 @@ import java.util.Map;
 import static spark.Spark.*;
 
 public class App {
+    static int getHerokuAssignedPort() {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        if (processBuilder.environment().get("PORT") != null) {
+            return Integer.parseInt(processBuilder.environment().get("PORT"));
+        }
+        return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
+    }
     public static void main(String[] args) {
         Sql2oNewsDao NewsDao;
         Sql2oUsersDao UsersDao;
         Sql2oDepartmentsDao DepartmentsDao;
         Connection conn;
         Gson gson = new Gson();
+
+
+        port(getHerokuAssignedPort());
         staticFileLocation("/public");
         String connectionString = "jdbc:postgresql://ec2-54-161-239-198.compute-1.amazonaws.com:5432/d439h64au1jmgi"; //!
         Sql2o sql2o = new Sql2o(connectionString, "hdxebpuatbedtu", "0de3585a26b037643e97aa6838f478f9aa7e7c268ad1600a21d6ec5b233d07f9"); //!
@@ -187,21 +197,21 @@ public class App {
 //            response.status(201);
 //            return gson.toJson(departmentUsers);
 //        });
-
-        exception(ApiException.class, (exception, request, response) -> {
-            ApiException err = exception;
-            Map<String, Object> jsonMap = new HashMap<>();
-            jsonMap.put("status", err.getStatusCode());
-            jsonMap.put("errorMessage", err.getMessage());
-            response.type("application/json");
-            response.status(err.getStatusCode());
-            response.body(gson.toJson(jsonMap));
-        });
-
-
-        after((request, response) ->{
-            response.type("application/json");
-        });
+      // filters
+//        exception(ApiException.class, (exception, request, response) -> {
+//            ApiException err = exception;
+//            Map<String, Object> jsonMap = new HashMap<>();
+//            jsonMap.put("status", err.getStatusCode());
+//            jsonMap.put("errorMessage", err.getMessage());
+//            response.type("application/json");
+//            response.status(err.getStatusCode());
+//            response.body(gson.toJson(jsonMap));
+//        });
+//
+//
+//        after((request, response) ->{
+//            response.type("application/json");
+//        });
     }
 
 
