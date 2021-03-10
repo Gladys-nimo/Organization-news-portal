@@ -1,8 +1,5 @@
 import com.google.gson.Gson;
-import dao.NewsDao;
-import dao.Sql2oDepartmentsDao;
-import dao.Sql2oNewsDao;
-import dao.Sql2oUsersDao;
+import dao.*;
 import exceptions.ApiException;
 import models.Departments;
 import models.News;
@@ -25,7 +22,7 @@ public class App {
         Gson gson = new Gson();
         staticFileLocation("/public");
 
-        String connectionString = "jdbc:postgresql://localhost:5432/organizational_news_portal_test";
+        String connectionString = "jdbc:postgresql://localhost:5432/organizational_news_portal";
         Sql2o sql2o = new Sql2o(connectionString, "postgres", "gladys");
 
 
@@ -36,7 +33,7 @@ public class App {
 
 //get and create users
 
-        post("/staff/new","application/json",(request, response) -> {
+        post("/users/new","application/json",(request, response) -> {
             Users users = gson.fromJson(request.body(),Users.class);
           UsersDao.add(users);
             response.status(201);
@@ -101,6 +98,10 @@ public class App {
             else {
                 return gson.toJson(DepartmentsDao.findById(id));
             }
+        });
+        get("/departments","application/json", (request, response) -> {
+            response.type("application/json");
+            return gson.toJson(DepartmentsDao.getAll());//send it back to be displayed
         });
 
 
@@ -167,7 +168,7 @@ public class App {
 //            int user_id=Integer.parseInt(request.params("user_id"));
 //            int department_id=Integer.parseInt(request.params("department_id"));
 //            Departments departments=DepartmentsDao.findById(department_id);
-//            Users users=sql2oUsersDao.findById(user_id);
+//            Users users=UsersDao.findById(user_id);
 //            if(departments==null){
 //                throw new ApiException(404, String.format("No department with the id: \"%s\" exists",
 //                        request.params("department_id")));
@@ -176,9 +177,9 @@ public class App {
 //                throw new ApiException(404, String.format("No user with the id: \"%s\" exists",
 //                        request.params("user_id")));
 //            }
-//            sql2oDepartmentsDao.addUserToDepartment(users,departments);
+//           DepartmentsDao.addUserToDepartment(users,departments);
 //
-//            List<Users> departmentUsers=sql2oDepartmentsDao.getAllUsersInDepartment(departments.getId());
+//            List<Users> departmentUsers=DepartmentsDao.getAllUsersInDepartment(departments.getId());
 //
 //            response.status(201);
 //            return gson.toJson(departmentUsers);
