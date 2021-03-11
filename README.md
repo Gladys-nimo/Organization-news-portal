@@ -18,7 +18,7 @@ REST API for querying and retrieving scoped news and information. There should b
   "staff_role": "supervising"
   }
   - **View** users by 
-    **gladys-news-portal.herokuapp.com/users**
+    **https://gladys-news-portal.herokuapp.com/users**
  2. ## Departments
     - **creating** a department
       {
