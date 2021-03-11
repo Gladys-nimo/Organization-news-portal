@@ -17,8 +17,8 @@ REST API for querying and retrieving scoped news and information. There should b
   "position": "manager"'
   "staff_role": "supervising"
   }
-  - **View** user by replacing the:
-    **:id with localhost:4567/user/33**
+  - **View** users by 
+    **gladys-news-portal.herokuapp.com/users**
  2. ## Departments
     - **creating** a department
       {
@@ -26,8 +26,8 @@ REST API for querying and retrieving scoped news and information. There should b
       "description": "editing new files",
       "size": "1"
       }
-      - **view** the department
-        localhost:4567/department/28
+      - **view** the departments
+        **https://gladys-news-portal.herokuapp.com/departments**
 3.  ## News
 - **creating** news
 - **general news**
@@ -44,7 +44,7 @@ REST API for querying and retrieving scoped news and information. There should b
     "user_id":1
     }
     -**view**
-    localhost:4567/news/new/general
+    **https://gladys-news-portal.herokuapp.com/news**
     # Technology used
     - Java
     - Json

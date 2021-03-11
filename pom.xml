@@ -100,7 +100,7 @@
                     <!-- Change this to YOUR application name! -->
                     <appName>gladys-news-portal</appName>
                     <processTypes>
-                        <web>java -jar target/news-portal-1.0-jar-with-dependencies.jar</web>
+                        <web>java -jar target/organizational-news-portal-1.0-jar-with-dependencies.jar</web>
                     </processTypes>
                 </configuration>
             </plugin>
